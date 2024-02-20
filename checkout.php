@@ -1,6 +1,7 @@
 <?php
 include('include/connect.php');
-include('./function/common-function.php')
+include('./function/common-function.php');
+@session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,20 +20,7 @@ include('./function/common-function.php')
 include('./nav.php');
 
 ?>
-    <?php
-    cart();
-    ?>
-    <!-- heading two -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-                <a class="nav-link" href="/products">Login</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/products">Welcome</a>
-            </li>
-        </ul>
-    </nav>
+ 
     <nav>
         <div class="text-center">
             Your Store
@@ -51,9 +39,11 @@ include('./nav.php');
           
            <?php
            if(!isset($_SESSION['username'])){
-            include('./user/user-login.php');
+            echo "<script>alert('Login First')</script>";
+    echo "<script>window.open('user/user-login.php','_self')</script>";
            }else{
-            include('../payment.php');
+            echo "<script>window.open('user/payment.php','_self')</script>";
+
            }
            ?>
         </div>

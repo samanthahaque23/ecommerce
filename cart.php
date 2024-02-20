@@ -16,44 +16,9 @@ include('./function/common-function.php')
 
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#"><b>ETooL</b></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/index.php">Home</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="/displayAll.php">Products</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/products">Register</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/cart.php"><i class="fa-solid fa-cart-shopping"></i><sup class="sup"><?php cart_item_number()  ?></sup></a>
-                    </li>
-
-                </ul>
-
-            </div>
-        </div>
-    </nav>
-    <!-- heading two -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-                <a class="nav-link" href="/products">Login</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/products">Welcome</a>
-            </li>
-        </ul>
-    </nav>
+    <?php
+    include('./nav.php');
+    ?>
     <nav>
         <div class="text-center">
             Your Store
@@ -100,67 +65,67 @@ include('./function/common-function.php')
                 $result = mysqli_query($con, $cart_query);
                 if (mysqli_num_rows($result) > 0) {
                 ?>
-                <form action="" method="post">
-                    <table class="table table-bordered text-center">
-                        <thead>
-                            <tr>
-                                <th>Product Title</th>
-                                <th>Product Image</th>
-                                <th>Quantity</th>
-                                <th>Price</th>
-                                <th>Remove</th>
-                                <th>Operations</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
+                    <form action="" method="post">
+                        <table class="table table-bordered text-center">
+                            <thead>
+                                <tr>
+                                    <th>Product Title</th>
+                                    <th>Product Image</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Remove</th>
+                                    <th>Operations</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
 
-                            while ($row = mysqli_fetch_array($result)) {
-                                $product_id = $row['Product_id'];
-                                $select_products = "SELECT * FROM `products` WHERE product_id='$product_id'";
-                                $result_products = mysqli_query($con, $select_products);
+                                while ($row = mysqli_fetch_array($result)) {
+                                    $product_id = $row['Product_id'];
+                                    $select_products = "SELECT * FROM `products` WHERE product_id='$product_id'";
+                                    $result_products = mysqli_query($con, $select_products);
 
-                                while ($row_product_price = mysqli_fetch_array($result_products)) {
-                                    $product_price = $row_product_price['price'];
-                                    $price_table = $row_product_price['price'];
-                                    $product_title = $row_product_price['product_title'];
-                                    $product_image1 = $row_product_price['product_image1'];
-                                    $quantity = $row['quantity'];
-                                    $product_values = $product_price * $quantity;
-                                    $total += $product_values;
-                            ?>
-                                    <tr>
-                                        <td><?php echo $product_title ?></td>
-                                        <td class="cart-img-td"><img class="cart-img" style="height: 70px;object-fit:contain;" src="./admin/product-images/<?php echo $product_image1 ?>" alt="image"></td>
-                                        <td><input type="number" name="quantity[<?php echo $product_id; ?>]" class="form-input" value="<?php echo $quantity; ?>"></td>
-                                        <td><?php echo $product_values ?></td>
-                                        <td><input type="checkbox" name="remove[]" value="<?php echo $product_id; ?>"></td>
-                                        <td class="d-flex">
-                                            <button type="submit">Update</button>
-                                        </td>
-                                    </tr>
-                            <?php
+                                    while ($row_product_price = mysqli_fetch_array($result_products)) {
+                                        $product_price = $row_product_price['price'];
+                                        $price_table = $row_product_price['price'];
+                                        $product_title = $row_product_price['product_title'];
+                                        $product_image1 = $row_product_price['product_image1'];
+                                        $quantity = $row['quantity'];
+                                        $product_values = $product_price * $quantity;
+                                        $total += $product_values;
+                                ?>
+                                        <tr>
+                                            <td><?php echo $product_title ?></td>
+                                            <td class="cart-img-td"><img class="cart-img" style="height: 70px;object-fit:contain;" src="./admin/product-images/<?php echo $product_image1 ?>" alt="image"></td>
+                                            <td><input type="number" name="quantity[<?php echo $product_id; ?>]" class="form-input" value="<?php echo $quantity; ?>"></td>
+                                            <td><?php echo $product_values ?></td>
+                                            <td><input type="checkbox" name="remove[]" value="<?php echo $product_id; ?>"></td>
+                                            <td class="d-flex">
+                                                <button type="submit">Update</button>
+                                            </td>
+                                        </tr>
+                                <?php
+                                    }
                                 }
-                            }
-                            ?>
-                        </tbody>
-                    </table>
-                    <!-- Move the submit button outside the loop -->
-                    <div class="d-flex">
-                        <div>
-                            <h4 class="px-3">Subtotal : <strong><?php echo $total ?></strong></h4>
+                                ?>
+                            </tbody>
+                        </table>
+                        <!-- Move the submit button outside the loop -->
+                        <div class="d-flex">
+                            <div>
+                                <h4 class="px-3">Subtotal : <strong><?php echo $total ?></strong></h4>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn-outline-info m-1">Update Cart</button>
+                            </div>
+                            <div>
+                                <a href="./index.php" class="btn btn-outline-info m-1"> Continue Shopping</a>
+                            </div>
+                            <div>
+                                <a href="./checkout.php" class="btn btn-outline-info m-1"> Checkout</a>
+                            </div>
                         </div>
-                        <div>
-                            <button type="submit" class="btn btn-outline-info m-1">Update Cart</button>
-                        </div>
-                        <div>
-                            <a href="./index.php" class="btn btn-outline-info m-1"> Continue Shopping</a>
-                        </div>
-                        <div>
-                            <a href="./checkout.php" class="btn btn-outline-info m-1"> Checkout</a>
-                        </div>
-                    </div>
-                </form>
+                    </form>
                 <?php
                 } else {
                     echo "<h2 class='text-center text-danger'>Your cart is empty</h2>";

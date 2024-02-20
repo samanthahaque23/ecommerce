@@ -1,6 +1,8 @@
 <?php
-include('include/connect.php');
-include('./function/common-function.php')
+session_start();
+
+include('../include/connect.php');
+ include('../function/common-function.php')
 ?>
 
 <!DOCTYPE html>
@@ -25,14 +27,14 @@ include('./function/common-function.php')
                         <label class="form-label" for="username">Username:</label>
                         <input class="form-control" type="text" id="username" name="username">
                     </div>
-                   
+
                     <div class="my-3 from-outline">
                         <label class="form-label" for="password">Password:</label>
                         <input class="form-control" type="password" id="password" name="password">
                     </div>
-                   
+
                     <div class="">
-                        <input type="submit" value="Login" class="btn btn-outline-success" name="user-login">
+                        <input type="submit" value="Login" class="btn btn-outline-success" name="user_login">
                     </div>
                     <p class="small">Don't have an account? <a href="./user-registration.php">Register</a></p>
                 </form>
@@ -43,3 +45,56 @@ include('./function/common-function.php')
 </body>
 
 </html>
+
+<?php
+function getIPAddress()
+{
+    //whether ip is from the share internet  
+    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+        $ip = $_SERVER['HTTP_CLIENT_IP'];
+    }
+    //whether ip is from the proxy  
+    elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    }
+    //whether ip is from the remote address  
+    else {
+        $ip = $_SERVER['REMOTE_ADDR'];
+    }
+    return $ip;
+}
+if (isset($_POST['user_login'])) {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    $select_query = "SELECT * FROM `user` WHERE username='$username'";
+    $user_result = mysqli_query($con, $select_query);
+    $row_data = mysqli_fetch_assoc($user_result);
+    $user_ip  =getIPAddress();
+
+    // cart 
+    $select_cart_query = "SELECT * FROM `cartdetail` WHERE ip_address='$user_ip'";
+    $select_cart = mysqli_query($con,$select_cart_query);
+    $cart_row_count = mysqli_num_rows($select_cart);
+    $user_result = mysqli_query($con, $select_query);
+    $row_count = mysqli_num_rows($user_result);
+    if ($row_count > 0) {
+        $_SESSION['username'] = $username;
+        if ($password == $row_data['user_password']) {
+            if($row_count == 1 and $cart_row_count == 0){
+                $_SESSION['username'] = $username;
+                echo "<script>alert('Successfully logged in!')</script>";
+            echo "<script>window.open('user-profile.php','_self')</script>";
+            }else{
+                $_SESSION['username'] = $username;
+                echo "<script>alert('Successfully logged in!')</script>";
+            echo "<script>window.open('payment.php','_self')</script>";
+            }
+        } else {
+            echo "<script>alert('Invalid Credential')</script>";
+        }
+    }else{
+        echo "<script>alert('Invalid Credential')</script>";
+
+    }
+}
+?>
