@@ -256,29 +256,29 @@ function getSearchedData()
     }
 }
 
-// function getIPAddress()
-// {
-//     //whether ip is from the share internet  
-//     if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-//         $ip = $_SERVER['HTTP_CLIENT_IP'];
-//     }
-//     //whether ip is from the proxy  
-//     elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-//         $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-//     }
-//     //whether ip is from the remote address  
-//     else {
-//         $ip = $_SERVER['REMOTE_ADDR'];
-//     }
-//     return $ip;
-// }
+function getIPAddress()
+{
+    //whether ip is from the share internet  
+    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+        $ip = $_SERVER['HTTP_CLIENT_IP'];
+    }
+    //whether ip is from the proxy  
+    elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    }
+    //whether ip is from the remote address  
+    else {
+        $ip = $_SERVER['REMOTE_ADDR'];
+    }
+    return '::1';    //$ip
+}
 
 function cart()
 {
     global $con;
 
     if (isset($_GET['addedToCart'])){
-    $getIP = 1;
+    $getIP = getIPAddress();
     $get_product_id = $_GET['addedToCart'];
     $select_query = "select * from `cartdetail` where ip_address='$getIP' and Product_id='$get_product_id'";
     $result = mysqli_query($con, $select_query);
@@ -298,13 +298,13 @@ function cart_item_number()
 {
     if (isset($_GET['addedToCart'])) {
         global $con;
-        $getIP = 1;
+        $getIP = getIPAddress();
         $select_query = "select * from `cartdetail` where ip_address='$getIP'";
         $result = mysqli_query($con, $select_query);
         $countCartItem = mysqli_num_rows($result);
     } else {
         global $con;
-        $getIP = 1;
+        $getIP = getIPAddress();
         $select_query = "select * from `cartdetail` where ip_address='$getIP'";
         $result = mysqli_query($con, $select_query);
         $countCartItem = mysqli_num_rows($result);
@@ -313,7 +313,7 @@ function cart_item_number()
 }
 function total_cart_price(){
     global $con;
-    $get_ip_add = 1;
+    $get_ip_add = getIPAddress();
     $total=0;
     $cart_query="Select * from `cartdetail` where ip_address='$get_ip_add'";
     $result=mysqli_query($con, $cart_query);

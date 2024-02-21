@@ -36,7 +36,7 @@ include('./function/common-function.php')
             <div class="col-10">
                 <?php
                 global $con;
-                $get_ip_add = 1;
+                $get_ip_add = getIPAddress();
                 $total = 0;
 
                 // Check if the form is submitted

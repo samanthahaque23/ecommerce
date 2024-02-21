@@ -47,29 +47,14 @@ include('../include/connect.php');
 </html>
 
 <?php
-function getIPAddress()
-{
-    //whether ip is from the share internet  
-    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-        $ip = $_SERVER['HTTP_CLIENT_IP'];
-    }
-    //whether ip is from the proxy  
-    elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    }
-    //whether ip is from the remote address  
-    else {
-        $ip = $_SERVER['REMOTE_ADDR'];
-    }
-    return $ip;
-}
+
 if (isset($_POST['user_login'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
     $select_query = "SELECT * FROM `user` WHERE username='$username'";
     $user_result = mysqli_query($con, $select_query);
     $row_data = mysqli_fetch_assoc($user_result);
-    $user_ip  =getIPAddress();
+    $user_ip  = getIPAddress();
 
     // cart 
     $select_cart_query = "SELECT * FROM `cartdetail` WHERE ip_address='$user_ip'";

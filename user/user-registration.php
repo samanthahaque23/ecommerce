@@ -71,9 +71,9 @@ if(isset($_POST['user-register'])){
     $cPassword = $_POST['confirm_password'];
     $address = $_POST['address'];
     $contact = $_POST['contact'];
-    $user_image = $_FILES['user_image']['name'];  // Use $_FILES instead of $_POST for file uploads
-    $user_image_tmp = $_FILES['user_image']['tmp_name'];  // Use $_FILES instead of $_POST for file uploads
-    $user_ip = getIPAddress();
+    $user_image = $_FILES['user_image']['name'];  
+    $user_image_tmp = $_FILES['user_image']['tmp_name'];  
+    $user_ip = getIPAddress();    //getIPAddress();  it can be used to catch userip if the project goes live. for now,to make a difference between user ip i am adding  numbers
     $select_query = "SELECT * FROM `user` WHERE username = '$username' OR user_email='$email'";
 
 $query_result = mysqli_query($con,$select_query);
@@ -94,7 +94,7 @@ if($numRows > 0 ){
     }
 
 }
-$select_cart_items = "select * from 'cartdetail' where ip_address = '$user_ip'";
+$select_cart_items = "select * from `cartdetail` where ip_address = '$user_ip' ";
 $select_cart_items_query = mysqli_query($con,$select_cart_items);
 $select_cart_items_rows = mysqli_num_rows($select_cart_items_query);
 if($select_cart_items_rows > 0 ){
