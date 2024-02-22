@@ -277,22 +277,21 @@ function cart()
 {
     global $con;
 
-    if (isset($_GET['addedToCart'])){
-    $getIP = getIPAddress();
-    $get_product_id = $_GET['addedToCart'];
-    $select_query = "select * from `cartdetail` where ip_address='$getIP' and Product_id='$get_product_id'";
-    $result = mysqli_query($con, $select_query);
-    $number_of_rows = mysqli_num_rows($result);
-    if ($number_of_rows > 0) {
-        echo "<script>alert('this product is already present in the cart')</script>";
-        echo "<script>window.open('index.php','_self')</script>";
-
-    } else {
-        $insert = "insert into `cartdetail` (Product_id,ip_address,quantity) values ('$get_product_id','$getIP',1)";
-        $result = mysqli_query($con, $insert);
-        echo "<script>alert('added to the cart')</script>";
+    if (isset($_GET['addedToCart'])) {
+        $getIP = getIPAddress();
+        $get_product_id = $_GET['addedToCart'];
+        $select_query = "select * from `cartdetail` where ip_address='$getIP' and Product_id='$get_product_id'";
+        $result = mysqli_query($con, $select_query);
+        $number_of_rows = mysqli_num_rows($result);
+        if ($number_of_rows > 0) {
+            echo "<script>alert('this product is already present in the cart')</script>";
+            echo "<script>window.open('index.php','_self')</script>";
+        } else {
+            $insert = "insert into `cartdetail` (Product_id,ip_address,quantity) values ('$get_product_id','$getIP',1)";
+            $result = mysqli_query($con, $insert);
+            echo "<script>alert('added to the cart')</script>";
+        }
     }
-}
 }
 function cart_item_number()
 {
@@ -311,24 +310,54 @@ function cart_item_number()
     }
     echo $countCartItem;
 }
-function total_cart_price(){
+function total_cart_price()
+{
     global $con;
     $get_ip_add = getIPAddress();
-    $total=0;
-    $cart_query="Select * from `cartdetail` where ip_address='$get_ip_add'";
-    $result=mysqli_query($con, $cart_query);
-    while($row=mysqli_fetch_array($result)) {
-    $product_id=$row['Product_id'];
-    $select_products="Select * from `products` where product_id='$product_id'";
-    $result_products=mysqli_query($con, $select_products);
-    while ($row_product_price=mysqli_fetch_array($result_products)) {
-    $product_price=array($row_product_price['price']);
-    $product_values=array_sum($product_price);
-    $total+=$product_values;
-    }
+    $total = 0;
+    $cart_query = "Select * from `cartdetail` where ip_address='$get_ip_add'";
+    $result = mysqli_query($con, $cart_query);
+    while ($row = mysqli_fetch_array($result)) {
+        $product_id = $row['Product_id'];
+        $select_products = "Select * from `products` where product_id='$product_id'";
+        $result_products = mysqli_query($con, $select_products);
+        while ($row_product_price = mysqli_fetch_array($result_products)) {
+            $product_price = array($row_product_price['price']);
+            $product_values = array_sum($product_price);
+            $total += $product_values;
+        }
     }
     echo $total;
-
 }
 
-?>
+function get_user_order_details()
+{
+    global $con;
+    $username = $_SESSION['username'];
+    $get_details = "Select * from `user` where username='$username'";
+    $result_query = mysqli_query($con, $get_details);
+    while ($row_query = mysqli_fetch_array($result_query)) {
+        $user_id = $row_query['user_id'];
+        if (!isset($_GET['edit_account'])) {
+            if (!isset($_GET['user_orders'])) {
+                if (!isset($_GET['delete_account'])) {
+
+                    $get_orders = "Select * from `user_order` where user_id=$user_id and order_status='pending'";
+                    $result_order_query = mysqli_query($con, $get_orders);
+                    $row_count = mysqli_num_rows($result_order_query);
+                    if ($row_count > 0) {
+                        echo "<h3 class='text-center'>You have <span class='text-danger'>$row_count</ span>pending orders</h3> </br> 
+                    <a href='./user-profile.php?my_orders'>Order Details</a>
+                    ";
+                    }else{
+                        echo "<h3 class='text-center'>You have <span class='text-danger'>0</ span>pending orders</h3></br>
+                        <a href='../index.php'>Explore our latest items</a>
+
+                    ";
+
+                    }
+                }
+            }
+        }
+    }
+}

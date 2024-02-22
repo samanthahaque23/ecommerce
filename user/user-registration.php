@@ -21,7 +21,7 @@ include('../function/common-function.php')
         <h2 class="text-center">User Registration Form</h2>
         <div class="row d-flex justify-content-center">
             <div class="w-50">
-                <form action="" method="post" enctype="multipart/form-data" class="form ">
+                <form action="" method="post" enctype="multipart/form-data" class="form">
                     <div class="my-3 from-outline">
                         <label class="form-label" for="username">Username:</label>
                         <input class="form-control" type="text" id="username" name="username">

@@ -31,9 +31,18 @@ include('./function/common-function.php')
                   <li class="nav-item">
                       <a class="nav-link" href="./displayAll.php">Products</a>
                   </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="./user/user-registration.php">Register</a>
-                  </li>
+                  <?php
+                  if(isset($_SESSION['username'])){
+                    echo " <li class='nav-item'>
+                    <a class='nav-link' href='./user/user-profile.php'>My Account</a>
+                </li>";
+                  }else{
+                    echo " <li class='nav-item'>
+                    <a class='nav-link' href='./user/user-registration.php'>Registration</a>
+                </li>";
+                  }
+                  ?>
+                 
                   <li class="nav-item">
                       <a class="nav-link" href="./cart.php"><i class="fa-solid fa-cart-shopping"></i><sup class="sup"><?php cart_item_number()  ?></sup></a>
                   </li>
