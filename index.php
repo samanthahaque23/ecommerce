@@ -72,7 +72,7 @@ include('./function/common-function.php')
 </li>";
             } else {
                 echo "  <li class='nav-item'>
-                <a class='nav-link' href='./index.php'>Welcome," .$_SESSION['username']."</a>
+                <a class='nav-link' href='./user/user-profile.php'>Welcome," .$_SESSION['username']."</a>
 
 </li>";
             }

@@ -270,7 +270,7 @@ function getIPAddress()
     else {
         $ip = $_SERVER['REMOTE_ADDR'];
     }
-    return '::1';    //$ip
+    return '1';    //$ip
 }
 
 function cart()
