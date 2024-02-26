@@ -1,3 +1,7 @@
+<?php
+include('../include/connect.php');
+include('../function/common-function.php')
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -36,7 +40,7 @@
     </nav>
     <div class="container p-4">
         <button class="btn btn-outline-success"><a href="insert-product.php">insert product</a></button>
-        <button class="btn btn-outline-success">view product</button>
+        <button class="btn btn-outline-success"><a href="index.php?view_products">view products</a></button>
         <a class="text-decoration-none btn btn-outline-success" href="index.php?insert_category">insert category</a>
         <button class="btn btn-outline-success"> view category</button>
         <a class="text-decoration-none btn btn-outline-success" href="index.php?insert_brands">insert brands</a>
@@ -54,6 +58,15 @@
         }
         else if(isset($_GET['insert_brands'])){
             include('insert-brands.php');
+        }
+        else if(isset($_GET['view_products'])){
+            include('view-products.php');
+        }
+        else if(isset($_GET['edit_products'])){
+            include('edit-products.php');
+        }
+        else if(isset($_GET['delete_products'])){
+            include('delete-products.php');
         }
         
         ?>

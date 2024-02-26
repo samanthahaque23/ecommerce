@@ -13,7 +13,28 @@ include('../function/common-function.php')
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="style.css">
-    <title>Welcome," . $_SESSION['username'] . "</title>
+    <title>Welcome</title>
+    <style>
+        .order-btn{
+            width: 400px;
+            border: 2px solid;
+        }
+      .profile-photo{
+        display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+      }
+        .profile-name a{
+            color: #fff !important;
+text-decoration: none;
+        }
+        .profile-list li{
+           font-size: 18px;
+           text-align: center;
+           padding: 5px;
+        }
+    </style>
 </head>
 
 <body>
@@ -43,7 +64,7 @@ include('../function/common-function.php')
                     </li>
 
                 </ul>
-                <ul class="d-flex navbar-nav me-auto mb-2 mb-lg-0">
+                <ul class="d-flex navbar-nav mb-2 mb-lg-0">
 
                     <?php
                     if (!isset($_SESSION['username'])) {
@@ -82,20 +103,23 @@ include('../function/common-function.php')
             <div class="col-3 h-100">
                 <div class="row h-100">
                     <div class="sidebar h-100">
-                        <ul class="profile-list">
-                            <?php
+                        <div>
+                        <?php
                             $username = $_SESSION['username'];
                             $user_image = "select * from `user` where username = '$username'";
                             $connection = mysqli_query($con, $user_image);
                             $row_data = mysqli_fetch_array($connection);
                             $row_image = $row_data['user_image'];
-                            echo " <li class='profile-photo'>
+                            echo " <p class='profile-photo'>
                             <img src='./user_image/$row_image' alt=''>
-                        </li>";
+                        </p>";
                             ?>
+                        </div>
+                        <ul class="profile-list p-0">
+                          
 
                             <li class="profile-name">
-                                <a href="./user-profile.php"><?php echo $username ?></a>
+                                <a href="./user-profile.php"><b><?php echo $username ?></b></a>
 
                             </li>
                             <li class="profile-name">
@@ -158,8 +182,10 @@ include('../function/common-function.php')
 
         .profile-photo img {
             height: 150px;
-            width: 100px;
-            object-fit: contain;
+            width: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 5px solid #fff;
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
