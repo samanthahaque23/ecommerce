@@ -39,15 +39,15 @@ include('../function/common-function.php')
         </div>
     </nav>
     <div class="container p-4">
-        <button class="btn btn-outline-success"><a href="insert-product.php">insert product</a></button>
-        <button class="btn btn-outline-success"><a href="index.php?view_products">view products</a></button>
-        <a class="text-decoration-none btn btn-outline-success" href="index.php?insert_category">insert category</a>
-        <button class="btn btn-outline-success"> view category</button>
-        <a class="text-decoration-none btn btn-outline-success" href="index.php?insert_brands">insert brands</a>
-        <button class="btn btn-outline-success"> view brands</button>
-        <button class="btn btn-outline-success">all orders</button>
-        <button class="btn btn-outline-success">all users</button>
-        <button class="btn btn-outline-success">all payment</button>
+        <a class="text-decoration-none btn btn-outline-success text-capitalize" href="insert-product.php">insert product</a></button>
+        <a class="text-decoration-none btn btn-outline-success text-capitalize" href="index.php?view_products">view products</a></button>
+        <a class="text-decoration-none btn btn-outline-success text-capitalize" href="index.php?insert_category">insert category</a>
+        <a class="text-decoration-none btn btn-outline-success text-capitalize" href="index.php?view_categories">view category</a>
+        <a class="text-decoration-none btn btn-outline-success text-capitalize" href="index.php?insert_brands">insert brands</a>
+        <a class="text-decoration-none btn btn-outline-success text-capitalize" href="index.php?view_brands">view brands</a>
+        <a class="text-decoration-none btn btn-outline-success text-capitalize" href="index.php?list_order">all orders</a>
+        <a class="text-decoration-none btn btn-outline-success text-capitalize" href="index.php?all_user">All Users</a>
+        <a class="text-decoration-none btn btn-outline-success text-capitalize" href="index.php?list_payment">all payments</a>
         <button class="btn btn-outline-success">logout</button>
     </div>
 
@@ -67,6 +67,33 @@ include('../function/common-function.php')
         }
         else if(isset($_GET['delete_products'])){
             include('delete-products.php');
+        }
+        else if(isset($_GET['view_categories'])){
+            include('view-categories.php');
+        }
+        else if(isset($_GET['view_brands'])){
+            include('view-brands.php');
+        }
+        else if(isset($_GET['edit_category'])){
+            include('edit-category.php');
+        }
+        else if(isset($_GET['delete_category'])){
+            include('delete-category.php');
+        }
+        else if(isset($_GET['edit_brands'])){
+            include('edit-brands.php');
+        }
+        else if(isset($_GET['delete_brands'])){
+            include('delete-brands.php');
+        }
+        else if(isset($_GET['list_order'])){
+            include('list-order.php');
+        }
+        else if(isset($_GET['list_payment'])){
+            include('list-payment.php');
+        }
+        else if(isset($_GET['all_user'])){
+            include('all-user.php');
         }
         
         ?>
