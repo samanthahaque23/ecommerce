@@ -293,7 +293,7 @@ function getIPAddress()
     else {
         $ip = $_SERVER['REMOTE_ADDR'];
     }
-    return '5';    //$ip
+    return '::1';    //$ip
 }
 
 function cart()
