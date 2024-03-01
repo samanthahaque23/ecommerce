@@ -100,9 +100,9 @@ $select_cart_items_rows = mysqli_num_rows($select_cart_items_query);
 if($select_cart_items_rows > 0 ){
     $_SESSION['username'] = $username;
     echo "<script>alert('User details successfully inserted')</script>";
-    echo "<script>window.open('checkout.php','_self')</script>";
+    echo "<script>window.open('./user-login.php','_self')</script>";
 }else{
-    echo "<script>window.open('./index.php','_self')</script>";
+    echo "<script>window.open('./user-login.php','_self')</script>";
 }
 }
    

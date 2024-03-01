@@ -33,9 +33,16 @@ include('../include/connect.php');
                   <li class="nav-item">
                       <a class="nav-link" href="../displayAll.php">Products</a>
                   </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="./user-registration.php">Register</a>
-                  </li>
+                  <?php
+                     if (!isset($_SESSION['username'])) {
+                        echo "  <li class='nav-item'>
+                        <a class='nav-link' href='./user-registration.php'>Register</a>
+        
+        </li>";
+                    }
+                  ?>
+               
+                 
                   <li class="nav-item">
                       <a class="nav-link" href="../cart.php"><i class="fa-solid fa-cart-shopping"></i><sup class="sup"><?php cart_item_number()  ?></sup></a>
                   </li>
@@ -63,7 +70,7 @@ include('../include/connect.php');
 </li>";
             } else {
                 echo "  <li class='nav-item'>
-                <a class='nav-link' href='./index.php'>Welcome," .$_SESSION['username']."</a>
+                <a class='nav-link' href='./user-profile.php'>Welcome," .$_SESSION['username']."</a>
 
 </li>";
             }
@@ -101,14 +108,10 @@ include('../include/connect.php');
         </div>
         <div class="row">
           
-            <div class="col-6">
+            
+            <div class="col-12">
                 <div class="row">
-                  
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="row">
-                   <a href="order.php?user_id=<?php echo $user_id ?>">Pay Offline</a>
+                  <h1 class="text-center"> <a class="form-control text-decoration-none btn btn-outline-info" href="order.php?user_id=<?php echo $user_id ?>"><b>Pay Offline</b></a></h1>
                 </div>
             </div>
         </div>

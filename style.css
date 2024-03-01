@@ -6,3 +6,8 @@ a{
     height: 70px !important;
     width: 50px !important;
 }
+.product-image img{
+height: 200px !important;
+width: 230px !important;
+object-fit: contain;
+}

@@ -18,12 +18,13 @@ function getProducts()
                 $brand_id = $row['brands_id'];
                 $category_id = $row['category_id'];
                 echo " <div class='col-md-4 my-2'>
-       <div class='card' style='width: 18rem;'>
-           <img src='./admin/product-images/$product_image1' style='height: 220px;width:200px' class='card-img-top' alt='...'>
+       <div class='card product-card' style='width: 18rem;'>
+       <div class='product-image'>
+       <img src='./admin/product-images/$product_image1'  class='card-img-top' alt='...'>
+       </div>
            <div class='card-body'>
                <h5 class='card-title'>$product_title</h5>
                <h5 class='card-title'>£$product_price</h5>
-               <p class='card-text'>$product_description</p>
            </div>
            <div class='card-body'>
                <a href='index.php?addedToCart=$product_id' class='card-link'>Add to cart</a>
@@ -39,44 +40,59 @@ function productDetails()
 {
     global $con;
     if (isset($_GET['product_id'])) {
-        if (!isset($_GET['category'])) {
-            if (!isset($_GET['brand'])) {
-                $product_id = $_GET['product_id'];
-                $select_query = "select * from `products` where product_id=$product_id";
-                $result = mysqli_query($con, $select_query);
-                while ($row = mysqli_fetch_assoc($result)) {
-                    $product_id = $row['product_id'];
-                    $product_title = $row['product_title'];
-                    $product_description = $row['product_description'];
-                    $product_image1 = $row['product_image1'];
-                    $product_image2 = $row['product_image2'];
-                    $product_image3 = $row['product_image3'];
+        $product_id = $_GET['product_id'];
 
-                    $product_price = $row['price'];
-                    $brand_id = $row['brands_id'];
-                    $category_id = $row['category_id'];
-                    echo " <div class='col-md-4 my-2'>
-       <div class='card' style='width: 18rem;'>
-           <img src='./admin/product-images/$product_image1' style='height: 220px;width:200px' class='card-img-top' alt='...'>
-           <div class='card-body'>
-               <h5 class='card-title'>$product_title</h5>
-               <h5 class='card-title'>£$product_price</h5>
-               <p class='card-text'>$product_description</p>
-           </div>
-           <div class='card-body'>
-               <a href='#' class='card-link'>Add to cart</a>
-               <a href='product-details.php?product_id=$product_id' class='card-link'>View More</a>
-           </div>
-       </div>
-       <img src='./admin/product-images/$product_image3' style='height: 220px;width:200px' class='card-img-top' alt='...'>
-       <img src='./admin/product-images/$product_image2' style='height: 220px;width:200px' class='card-img-top' alt='...'>
+        // 1. SQL Injection protection using prepared statements
+        $select_query = "SELECT * FROM `products` WHERE product_id=?";
+        $stmt = mysqli_prepare($con, $select_query);
+        mysqli_stmt_bind_param($stmt, "i", $product_id);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
 
-   </div>";
-                }
+        // 2. Error handling for database query
+        if (!$result) {
+            die("Query failed: " . mysqli_error($con));
+        }
+
+        // 3. Check if the result set is not empty
+        if (mysqli_num_rows($result) > 0) {
+            // 4. HTML structure within the while loop
+            while ($row = mysqli_fetch_assoc($result)) {
+                $product_title = $row['product_title'];
+                $product_description = $row['product_description'];
+                $product_image1 = $row['product_image1'];
+                $product_image2 = $row['product_image2'];
+                $product_image3 = $row['product_image3'];
+                $product_price = $row['price'];
+                $brand_id = $row['brands_id'];
+                $category_id = $row['category_id'];
+
+                echo "<div class='col-md-4 my-2'>
+                        <div class='card' style='width: 18rem;'>
+                        <div class='card product-card' style='width: 18rem;'>
+                         <div class='product-image'>
+                         <img src='./admin/product-images/$product_image1'  class='card-img-top' alt='...'>
+                         </div>
+                            <div class='card-body'>
+                                <h5 class='card-title'>$product_title</h5>
+                                <h5 class='card-title'>£$product_price</h5>
+                                <p class='card-text'>$product_description</p>
+                            </div>
+                            <div class='card-body'>
+                                <a href='#' class='card-link'>Add to cart</a>
+                                <a href='product-details.php?product_id=$product_id' class='card-link'>View More</a>
+                            </div>
+                        </div>
+                        <img src='./admin/product-images/$product_image2' style='height: 220px;width:200px' class='card-img-top' alt='...'>
+                        <img src='./admin/product-images/$product_image3' style='height: 220px;width:200px' class='card-img-top' alt='...'>
+                    </div>";
             }
+        } else {
+            echo "No product found with the given ID.";
         }
     }
 }
+
 function getAllProducts()
 {
     global $con;
@@ -95,12 +111,13 @@ function getAllProducts()
                 $category_id = $row['category_id'];
                 echo " <div class='col-md-4 my-2'>
        <div class='card' style='width: 18rem;'>
-           <img src='./admin/product-images/$product_image1' style='height: 220px;width:200px' class='card-img-top' alt='...'>
+       <div class='product-image'>
+       <img src='./admin/product-images/$product_image1'  class='card-img-top' alt='...'>
+       </div>
            <div class='card-body'>
                <h5 class='card-title'>$product_title</h5>
                <h5 class='card-title'>£$product_price</h5>
 
-               <p class='card-text'>$product_description</p>
            </div>
            <div class='card-body'>
            <a href='index.php?addedToCart=$product_id' class='card-link'>Add to cart</a>
@@ -134,7 +151,9 @@ function getUniqueCategories()
             $category_id = $row['category_id'];
             echo " <div class='col-md-4 my-2'>
        <div class='card' style='width: 18rem;'>
-           <img src='./admin/product-images/$product_image1' style='height: 220px;width:200px' class='card-img-top' alt='...'>
+       <div class='product-image'>
+       <img src='./admin/product-images/$product_image1'  class='card-img-top' alt='...'>
+       </div>
            <div class='card-body'>
                <h5 class='card-title'>$product_title</h5>
                <h5 class='card-title'>£$product_price</h5>
@@ -173,7 +192,9 @@ function getUniqueBrands()
             $category_id = $row['category_id'];
             echo " <div class='col-md-4 my-2'>
            <div class='card' style='width: 18rem;'>
-               <img src='./admin/product-images/$product_image1' style='height: 220px;width:200px' class='card-img-top' alt='...'>
+           <div class='product-image'>
+           <img src='./admin/product-images/$product_image1'  class='card-img-top' alt='...'>
+           </div>
                <div class='card-body'>
                    <h5 class='card-title'>$product_title</h5>
                <h5 class='card-title'>£$product_price</h5>
@@ -239,7 +260,9 @@ function getSearchedData()
             $category_id = $row['category_id'];
             echo " <div class='col-md-4 my-2'>
        <div class='card' style='width: 18rem;'>
-           <img src='./admin/product-images/$product_image1' style='height: 220px;width:200px' class='card-img-top' alt='...'>
+       <div class='product-image'>
+       <img src='./admin/product-images/$product_image1'  class='card-img-top' alt='...'>
+       </div>
            <div class='card-body'>
                <h5 class='card-title'>$product_title</h5>
                <h5 class='card-title'>£$product_price</h5>
@@ -270,7 +293,7 @@ function getIPAddress()
     else {
         $ip = $_SERVER['REMOTE_ADDR'];
     }
-    return '1';    //$ip
+    return '5';    //$ip
 }
 
 function cart()
@@ -356,8 +379,10 @@ function get_user_order_details()
                         </div>                    ";
                     } else {
                         echo "<h3 class='text-center'>You have <span class='text-danger'>0</ span>pending orders</h3></br>
-                        <a href='../index.php'>Explore our latest items</a>
-
+                                  <div>
+                        <a class ='btn btn-outline-success form-control text-center text-decoration-none' href='../index.php'><h3>Explore our latest items</h3></a>
+                                  
+                                  </div>
                     ";
                     }
                 }
