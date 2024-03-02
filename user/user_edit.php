@@ -10,19 +10,28 @@ if (isset($_GET['edit_account'])) {
     $user_password = $row_fetch['user_password'];
     $user_address = $row_fetch['user_address'];
     $user_mobile = $row_fetch['user_mobile'];
+    $user_image = $row_fetch['user_image']; 
 }
 
 if (isset($_POST['user_update'])) {
     $update_id = $user_id;
     $username = $_POST['username'];
     $user_email = $_POST['user_email'];
+    $user_password = $_POST['password']; 
     $user_address = $_POST['user_address'];
     $user_mobile = $_POST['user_mobile'];
-    $user_image = $_FILES['user_image']['name'];
-    $user_image_tmp = $_FILES['user_image']['tmp_name']; // Corrected
-    move_uploaded_file($user_image_tmp, "./user_image/$user_image"); // Make sure the destination path is correct
+    
+    // Check if a new image is uploaded for user_image
+    if ($_FILES['user_image']['size'] > 0) {
+        $user_image = $_FILES['user_image']['name'];
+        $user_image_tmp = $_FILES['user_image']['tmp_name'];
+        move_uploaded_file($user_image_tmp, "./user_image/$user_image");
+    } else {
+        // Preserve existing image if no new image is uploaded
+        $user_image = $user_image;
+    }
 
-    // update query
+    // Update query
     $update_data = "UPDATE `user` SET username='$username', user_email='$user_email', user_password='$user_password', user_image='$user_image', 
     user_address='$user_address', user_mobile='$user_mobile' WHERE user_id=$update_id";
     
@@ -30,10 +39,12 @@ if (isset($_POST['user_update'])) {
     
     if ($result_query_update) {
         echo "<script> alert('Data updated successfully')</script>";
+    echo "<script>window.open('./user-logout.php','_self')</script>";
+
     }
 }
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -57,7 +68,7 @@ if (isset($_POST['user_update'])) {
             </div>
             <div class="my-3 from-outline">
                 <input class="form-control" type="file" id="user_image" name="user_image">
-                <img src="./user_image/<?php echo $row_image ?>" class="row-image" style="width:150px;object-fit:contain" alt="..">
+                <img src="./user_image/<?php echo $user_image ?>" class="row-image" style="width:150px;object-fit:contain" alt="..">
             </div>
             <div class="my-3 from-outline">
                 <label class="form-label" for="password">Password:</label>

@@ -163,7 +163,7 @@ include('./function/common-function.php')
                                             <td><?php echo $product_values ?></td>
                                             <td><input type="checkbox" name="remove[]" value="<?php echo $product_id; ?>"></td>
                                             <td class="d-flex">
-                                                <button type="submit">Update</button>
+                                                <button class="btn btn-outline-success" type="submit">Update</button>
                                             </td>
                                         </tr>
                                 <?php

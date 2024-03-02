@@ -43,7 +43,7 @@ include('./function/common-function.php')
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="./displayAll.php">ALL Products</a>
+                        <a class="nav-link" href="./displayAll.php">All Products</a>
                     </li>
                     <?php
                     if (isset($_SESSION['username'])) {

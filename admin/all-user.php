@@ -1,7 +1,6 @@
-<h1 class="text-person text-center">
+<h1 class="text-person text-success text-center">
     All Users
 </h1>
-<h1 class="text-center text-success">View Products</h1>
 
 <table class="table table-border mt-5">
     <thead>
