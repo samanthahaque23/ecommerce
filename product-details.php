@@ -176,7 +176,7 @@ include('./function/common-function.php')
                                                  <p class='card-text'>$product_description</p>
                                              </div>
                                              <div class='card-body'>
-                                                 <a href='#' class='card-link'>Add to cart</a>
+                                                 <a href='index.php?addedToCart=$product_id' class='card-link'>Add to cart</a>
                                              </div>
                                          </div>
                                         

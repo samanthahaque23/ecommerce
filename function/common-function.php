@@ -79,7 +79,7 @@ function productDetails()
                                 <p class='card-text'>$product_description</p>
                             </div>
                             <div class='card-body'>
-                                <a href='#' class='card-link'>Add to cart</a>
+                                <a href='index.php??addedToCart=$product_id' class='card-link'>Add to cart</a>
                                 <a href='product-details.php?product_id=$product_id' class='card-link'>View More</a>
                             </div>
                         </div>
@@ -293,7 +293,7 @@ function getIPAddress()
     else {
         $ip = $_SERVER['REMOTE_ADDR'];
     }
-    return '::1';    //$ip
+    return '1';    //$ip
 }
 
 function cart()
